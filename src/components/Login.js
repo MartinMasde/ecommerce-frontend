@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import backgroundImage from "../assets/background.jpg";
+import googleLogo from "../assets/google_logo_icon.svg";
 import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -28,6 +31,10 @@ function Login() {
           timer: 3000,
           showConfirmButton: false
         });
+
+        setTimeout(() => {
+          navigate('/products'); // Redirige a la página de productos
+        }, 3000); 
       } else {
         Swal.fire({
           title: 'Login failed',
@@ -43,6 +50,12 @@ function Login() {
       });
     }
   };
+
+  const handleGoogleLogin = () => {
+    // Redirigir al endpoint del backend para el login con Google
+    window.location.href = "http://localhost:8080/api/sessions/google";
+  };
+
   return (
     <div className="d-flex justify-content-center align-items-center"
       style={{
@@ -85,6 +98,24 @@ function Login() {
           </div>
           <button className="btn btn-primary w-100" id="login">Login</button>
         </form>
+        {/* <!-- Agregar botón para login con Google --> */}
+        <div className="my-1">
+          <hr className="bg-light" />
+          <p className="text-center text-light" style={{ margin: "-1rem 0" }}>Or</p>
+          <hr className="bg-light" />
+        </div>
+        <div className="text-center">
+          <button 
+            className="btn btn-outline-light w-100 d-flex align-items-center justify-content-center" 
+            onClick={handleGoogleLogin}
+            style={{ gap: "10px" }}>
+            <img 
+              src={googleLogo} 
+              alt="Google Logo" 
+              style={{ width: "20px", height: "20px" }} />
+            Register with Google
+          </button>
+        </div>
         <p className="mt-3 text-center">Don't have an account? <a href="/register">Register</a> </p>
       </div>
     </div>
