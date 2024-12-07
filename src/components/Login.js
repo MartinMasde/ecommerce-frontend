@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import backgroundImage from "../assets/background.jpg";
 import googleLogo from "../assets/google_logo_icon.svg";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setIsAuthenticated }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -32,6 +32,8 @@ function Login() {
           showConfirmButton: false
         });
 
+        setIsAuthenticated(true);
+
         setTimeout(() => {
           navigate('/products'); // Redirige a la página de productos
         }, 3000); 
@@ -50,6 +52,17 @@ function Login() {
       });
     }
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const googleAuth = urlParams.get('googleAuth');
+    const token = urlParams.get('token');
+    if (googleAuth && token) {
+      document.cookie = `token=${token} ; max-age=3600; path=/;`;
+      setIsAuthenticated(true);
+      navigate('/products');
+    }
+  }, [setIsAuthenticated, navigate]);
 
   const handleGoogleLogin = () => {
     // Redirigir al endpoint del backend para el login con Google
