@@ -4,7 +4,7 @@ import googleLogo from "../assets/google_logo_icon.svg";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 
-function Login({ setIsAuthenticated }) {
+function Login({ setAuthState }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -17,34 +17,43 @@ function Login({ setIsAuthenticated }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'include',
       };
-
-      // URL completa para la solicitud al backend
-      const response = await fetch('http://localhost:8080/api/sessions/login', options); 
+  
+      const response = await fetch('http://localhost:8080/api/sessions/login', options);
       const result = await response.json();
-
+  
+      console.log('Login response:', result); // Verificar la estructura de la respuesta
+  
       if (response.ok) {
+        const { response: userResponse } = result; // Extraer el objeto 'response'
+        if (!userResponse || !userResponse.role) {
+          throw new Error('Invalid user data received from the server');
+        }
+  
+        setAuthState({ isAuthenticated: true, role: userResponse.role });
+  
         Swal.fire({
-          icon: 'Success!',
-          title: 'You have successfully logged in',
-          text: result.message,
+          icon: 'success',
+          title: 'Login Successful',
+          text: `Welcome back, ${userResponse.role === 'ADMIN' ? 'Admin' : 'User'}!`,
           timer: 3000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
-
-        setIsAuthenticated(true);
-
+  
+        // Redirige según el rol
         setTimeout(() => {
-          navigate('/products'); // Redirige a la página de productos
-        }, 3000); 
+          navigate(userResponse.role === 'ADMIN' ? '/admin' : '/products');
+        }, 3000);
       } else {
         Swal.fire({
-          title: 'Login failed',
-          text: result.message,
-          icon: 'error'
+          icon: 'error',
+          title: 'Login Failed',
+          text: result.message || 'An error occurred.',
         });
       }
     } catch (error) {
+      console.error('Error during login:', error); // Agrega este log para depuración
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -59,24 +68,25 @@ function Login({ setIsAuthenticated }) {
     const token = urlParams.get('token');
     if (googleAuth && token) {
       document.cookie = `token=${token} ; max-age=3600; path=/;`;
-      setIsAuthenticated(true);
+      setAuthState({ isAuthenticated: true, role: 'USER' });
       navigate('/products');
     }
-  }, [setIsAuthenticated, navigate]);
+  }, [setAuthState, navigate]);
 
   const handleGoogleLogin = () => {
-    // Redirigir al endpoint del backend para el login con Google
     window.location.href = "http://localhost:8080/api/sessions/google";
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center"
+    <div
+      className="d-flex justify-content-center align-items-center"
       style={{
         height: "100vh",
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-      }}>
+      }}
+    >
       <div className="card p-4 shadow"
         style={{
           width: "400px",
@@ -93,12 +103,12 @@ function Login({ setIsAuthenticated }) {
         <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email</label>
-            <input   type="email"
+            <input type="email"
               className="form-control"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required/>
+              required />
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">Password</label>
@@ -107,24 +117,23 @@ function Login({ setIsAuthenticated }) {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required/>
+              required />
           </div>
           <button className="btn btn-primary w-100" id="login">Login</button>
         </form>
-        {/* <!-- Agregar botón para login con Google --> */}
         <div className="my-1">
           <hr className="bg-light" />
           <p className="text-center text-light" style={{ margin: "-1rem 0" }}>Or</p>
           <hr className="bg-light" />
         </div>
         <div className="text-center">
-          <button 
-            className="btn btn-outline-light w-100 d-flex align-items-center justify-content-center" 
+          <button
+            className="btn btn-outline-light w-100 d-flex align-items-center justify-content-center"
             onClick={handleGoogleLogin}
             style={{ gap: "10px" }}>
-            <img 
-              src={googleLogo} 
-              alt="Google Logo" 
+            <img
+              src={googleLogo}
+              alt="Google Logo"
               style={{ width: "20px", height: "20px" }} />
             Register with Google
           </button>

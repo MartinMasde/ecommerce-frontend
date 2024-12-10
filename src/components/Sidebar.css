@@ -1,0 +1,14 @@
+.sidebar {
+    background-color: #ffc107;
+    color: #fff;
+  }
+  
+  .sidebar .nav-link {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .sidebar .nav-link:hover {
+    color: #fff;
+    background-color: #e0a800;
+  }
