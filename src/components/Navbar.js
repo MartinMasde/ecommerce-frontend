@@ -35,64 +35,7 @@ function Navbar({ authState, setAuthState }) {
             {authState.isAuthenticated ? (
               authState.role === 'ADMIN' ? (
                 <>
-                  <li className="nav-item dropdown">
-                    <Link 
-                      className="nav-link dropdown-toggle" 
-                      to="#" 
-                      id="productsDropdown" 
-                      role="button" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false"
-                    >
-                      Products
-                    </Link>
-                    <ul className="dropdown-menu" aria-labelledby="productsDropdown">
-                      <li><Link className="dropdown-item" to="/products/read">Read</Link></li>
-                      <li><Link className="dropdown-item" to="/admin/products/create">Create</Link></li>
-                      <li><Link className="dropdown-item" to="/products/update">Update</Link></li>
-                      <li><Link className="dropdown-item" to="/products/delete">Delete</Link></li>
-                    </ul>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <Link 
-                      className="nav-link dropdown-toggle" 
-                      to="#" 
-                      id="cartsDropdown" 
-                      role="button" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false"
-                    >
-                      Carts
-                    </Link>
-                    <ul className="dropdown-menu" aria-labelledby="cartsDropdown">
-                      <li><Link className="dropdown-item" to="/carts/read">Read</Link></li>
-                      <li><Link className="dropdown-item" to="/carts/create">Create</Link></li>
-                      <li><Link className="dropdown-item" to="/carts/update">Update</Link></li>
-                      <li><Link className="dropdown-item" to="/carts/delete">Delete</Link></li>
-                    </ul>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <Link 
-                      className="nav-link dropdown-toggle" 
-                      to="#" 
-                      id="usersDropdown" 
-                      role="button" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false">
-                      Users
-                    </Link>
-                    <ul className="dropdown-menu" aria-labelledby="usersDropdown">
-                      <li><Link className="dropdown-item" to="/users/read">Read</Link></li>
-                      <li><Link className="dropdown-item" to="/users/create">Create</Link></li>
-                      <li><Link className="dropdown-item" to="/users/update">Update</Link></li>
-                      <li><Link className="dropdown-item" to="/users/delete">Delete</Link></li>
-                    </ul>
-                  </li>
-                  <li className="nav-item me-3 me-lg-0">
-                    <Link className="nav-link" to="/cart">
-                      <span><i className="fas fa-shopping-cart"></i></span>
-                    </Link>
-                  </li>
+           
                   <li className="nav-item dropdown">
                     <button className="nav-link dropdown-toggle d-flex align-items-center btn btn-link" id="navbarDropdownMenuLink"
                       data-bs-toggle="dropdown" aria-expanded="false">

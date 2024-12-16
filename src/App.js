@@ -6,7 +6,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Products from './components/Products';
 import Cart from './components/Cart';
-import CreateProductForm from './components/Admin/Products/CreateProducts'; // Importa el componente
+import AdminDashboard from './components/Admin/AdminDashboard.js'; // Importa el AdminDashboard
+import CreateProductForm from './components/Admin/Products/CreateProducts.js'
 
 function ProtectedRoute({ children, role, authState }) {
   if (!authState.isAuthenticated || authState.role !== role) {
@@ -34,7 +35,8 @@ function App() {
           element={
             <ProtectedRoute authState={authState} role="ADMIN">
               <Routes>
-                <Route path="products/create" element={<CreateProductForm />} /> {/* Define la ruta */}
+                <Route path="" element={<AdminDashboard />} /> {/* Ruta principal del dashboard */}
+                <Route path="products/create" element={<CreateProductForm />} /> {/* Ruta para crear productos */}
               </Routes>
             </ProtectedRoute>
           }

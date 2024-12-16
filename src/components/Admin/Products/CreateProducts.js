@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CreateProductForm() {
   const [product, setProduct] = useState({
@@ -16,6 +17,8 @@ function CreateProductForm() {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +45,7 @@ function CreateProductForm() {
           category: "televisores",
           code: "",
         });
+        navigate('/admin'); // Navega al AdminDashboard
       } else {
         const errorData = await response.json();
         console.error("Error del servidor:", errorData);
@@ -54,9 +58,9 @@ function CreateProductForm() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 ">
       <h2 className="text-center mb-4">Crear Nuevo Producto</h2>
-      <form onSubmit={handleSubmit} className="p-4 shadow rounded bg-light">
+      <form onSubmit={handleSubmit} className="p-4 shadow rounded bg-light" style={{ maxWidth: "500px", margin: "0 auto" }}>
         {/* Título */}
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
@@ -164,7 +168,7 @@ function CreateProductForm() {
 
       {/* Mensaje de éxito o error */}
       {message && (
-        <div className={`mt-4 alert ${message.startsWith("Error") ? "alert-danger" : "alert-success"}`}>
+        <div className={`mt-4 alert ${message.startsWith("Error") ? "alert-danger" : "alert-success"} `} style={{ maxWidth: "500px", margin: "0 auto" }}>
           {message}
         </div>
       )}
