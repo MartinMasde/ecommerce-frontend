@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AddEditModal from '../Admin/AddEditModal'; // Componente para manejar el modal de agregar/editar
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from './AdminLayout';
 
 const AdminDashboard = () => {
   const [section, setSection] = useState('Products'); // Estado para manejar la sección activa
@@ -125,37 +126,10 @@ const AdminDashboard = () => {
     }
     console.log("Sección actual:", section);
   };
-
   return (
-    <div className="d-flex">
-      {/* Barra lateral */}
-      <div className="bg-dark text-white p-3" style={{ width: '250px', height: '100vh' }}>
-        <h5>Admin Dashboard</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <button className="nav-link btn btn-link text-white" onClick={() => setSection('Products')}>
-              Products
-            </button>
-          </li>
-          <li className="nav-item">
-            <button className="nav-link btn btn-link text-white" onClick={() => setSection('Users')}>
-              Users
-            </button>
-          </li>
-          <li className="nav-item">
-            <button className="nav-link btn btn-link text-white" onClick={() => setSection('Carts')}>
-              Carts
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      {/* Contenido principal */}
-      <div className="container-fluid p-4">
-        <h3>{section}</h3>
-        {renderTable()}
-      </div>
-
+    <AdminLayout setSection={setSection}>
+      <h3>{section}</h3>
+      {renderTable()}
       {/* Modal de agregar/editar */}
       {showModal && (
         <AddEditModal 
@@ -168,8 +142,56 @@ const AdminDashboard = () => {
           }}
         />
       )}
-    </div>
+    </AdminLayout>
   );
+  
+//   return (
+//     <div className="d-flex">
+//       {/* Barra lateral */}
+//       <div className="bg-dark text-white p-3" style={{ width: '250px', height: '100vh' }}>
+//         <h5>Admin Dashboard</h5>
+//         <ul className="nav flex-column">
+//           <li className="nav-item">
+//             <button className="nav-link btn btn-link text-white" onClick={() => setSection('Products')}>
+//               Products
+//             </button>
+//           </li>
+//           <li className="nav-item">
+//             <button className="nav-link btn btn-link text-white" onClick={() => setSection('Users')}>
+//               Users
+//             </button>
+//           </li>
+//           <li className="nav-item">
+//             <button className="nav-link btn btn-link text-white" onClick={() => setSection('Carts')}>
+//               Carts
+//             </button>
+//           </li>
+//         </ul>
+//       </div>
+
+//       {/* Contenido principal */}
+//       <div className="container-fluid p-4">
+//         <h3>{section}</h3>
+//         {renderTable()}
+//       </div>
+
+//       {/* Modal de agregar/editar */}
+//       {showModal && (
+//         <AddEditModal 
+//           section={section} 
+//           item={currentItem} 
+//           onClose={() => setShowModal(false)} 
+//           onSave={(newData) => {
+//             setData(newData);
+//             setShowModal(false);
+//           }}
+//         />
+//       )}
+//     </div>
+//   );
+
 };
 
 export default AdminDashboard;
+
+
