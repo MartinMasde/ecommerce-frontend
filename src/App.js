@@ -11,6 +11,7 @@ import CreateProductForm from './components/Admin/Products/CreateProducts.js'
 import UsersTable from './components/Admin/Users/UsersTable.js';
 import CartsTable from './components/Admin/Carts/CartsTable.js';
 import AdminLayout from './components/Admin/AdminLayout.js';
+import UpdateProductForm from './components/Admin/Products/UpdateProducts.js';
 
 function ProtectedRoute({ children, role, authState }) {
   if (!authState.isAuthenticated || authState.role !== role) {
@@ -41,6 +42,7 @@ function App() {
               <Routes>
                 <Route path="" element={<AdminDashboard />} /> {/* Ruta principal del dashboard */}
                 <Route path="products/create" element={<CreateProductForm />} /> {/* Ruta para crear productos */}
+                <Route path="products/update/:id" element={<UpdateProductForm />} />
                 <Route path="users" element={<UsersTable />} /> {/* Tabla de usuarios */}
                 <Route path="carts" element={<CartsTable />} /> {/* Tabla de carritos */}
               </Routes>
