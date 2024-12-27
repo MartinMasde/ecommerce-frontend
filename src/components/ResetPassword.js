@@ -42,7 +42,7 @@ function ResetPassword() {
   const handleResetPassword = async (event) => {
     event.preventDefault();  
     try {
-      const response = await fetch('http://localhost:8080/api//sessions/password-reset/verify', {
+      const response = await fetch('http://localhost:8080/api/sessions/password-reset/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
