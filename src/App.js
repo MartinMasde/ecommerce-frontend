@@ -12,6 +12,7 @@ import UsersTable from './components/Admin/Users/UsersTable.js';
 import CartsTable from './components/Admin/Carts/CartsTable.js';
 import AdminLayout from './components/Admin/AdminLayout.js';
 import UpdateProductForm from './components/Admin/Products/UpdateProducts.js';
+import ResetPassword from './components/ResetPassword.js';
 
 function ProtectedRoute({ children, role, authState }) {
   if (!authState.isAuthenticated || authState.role !== role) {
@@ -32,6 +33,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
         
         {/* Rutas protegidas para ADMIN */}
         <Route

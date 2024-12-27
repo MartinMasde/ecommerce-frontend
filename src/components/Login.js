@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import backgroundImage from "../assets/background.jpg";
 import googleLogo from "../assets/google_logo_icon.svg";
 import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Login({ setAuthState }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -14,49 +14,54 @@ function Login({ setAuthState }) {
     try {
       const data = { email, password };
       const options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-        credentials: 'include',
+        credentials: "include",
       };
-  
-      const response = await fetch('http://localhost:8080/api/sessions/login', options);
+
+      const response = await fetch(
+        "http://localhost:8080/api/sessions/login",
+        options
+      );
       const result = await response.json();
-  
-      console.log('Login response:', result); // Verificar la estructura de la respuesta
-  
+
+      console.log("Login response:", result); // Verificar la estructura de la respuesta
+
       if (response.ok) {
         const { response: userResponse } = result; // Extraer el objeto 'response'
         if (!userResponse || !userResponse.role) {
-          throw new Error('Invalid user data received from the server');
+          throw new Error("Invalid user data received from the server");
         }
-  
+
         setAuthState({ isAuthenticated: true, role: userResponse.role });
-  
+
         Swal.fire({
-          icon: 'success',
-          title: 'Login Successful',
-          text: `Welcome back, ${userResponse.role === 'ADMIN' ? 'Admin' : 'User'}!`,
+          icon: "success",
+          title: "Login Successful",
+          text: `Welcome back, ${
+            userResponse.role === "ADMIN" ? "Admin" : "User"
+          }!`,
           timer: 3000,
           showConfirmButton: false,
         });
-  
+
         // Redirige según el rol
         setTimeout(() => {
-          navigate(userResponse.role === 'ADMIN' ? '/admin' : '/products');
+          navigate(userResponse.role === "ADMIN" ? "/admin" : "/products");
         }, 3000);
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: result.message || 'An error occurred.',
+          icon: "error",
+          title: "Login Failed",
+          text: result.message || "An error occurred.",
         });
       }
     } catch (error) {
-      console.error('Error during login:', error); // Agrega este log para depuración
+      console.error("Error during login:", error); // Agrega este log para depuración
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
+        icon: "error",
+        title: "Error",
         text: error.message,
       });
     }
@@ -64,12 +69,12 @@ function Login({ setAuthState }) {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const googleAuth = urlParams.get('googleAuth');
-    const token = urlParams.get('token');
+    const googleAuth = urlParams.get("googleAuth");
+    const token = urlParams.get("token");
     if (googleAuth && token) {
       document.cookie = `token=${token} ; max-age=3600; path=/;`;
-      setAuthState({ isAuthenticated: true, role: 'USER' });
-      navigate('/products');
+      setAuthState({ isAuthenticated: true, role: "USER" });
+      navigate("/products");
     }
   }, [setAuthState, navigate]);
 
@@ -87,58 +92,83 @@ function Login({ setAuthState }) {
         backgroundPosition: "center",
       }}
     >
-      <div className="card p-4 shadow"
+      <div
+        className="card p-4 shadow"
         style={{
           width: "400px",
           backgroundColor: "#1b1b1b",
           color: "white",
           borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
-        }}>
-        <h3 className="text-center mb-4"
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <h3
+          className="text-center mb-4"
           style={{
             fontWeight: "bold",
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)"
-          }}>Login</h3>
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          Login
+        </h3>
         <form onSubmit={handleLogin}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input type="email"
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
               className="form-control"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required />
+              required
+            />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input type="password"
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
               className="form-control"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required />
+              required
+            />
           </div>
-          <button className="btn btn-primary w-100" id="login">Login</button>
+          <button className="btn btn-primary w-100" id="login">
+            Login
+          </button>
         </form>
         <div className="my-1">
           <hr className="bg-light" />
-          <p className="text-center text-light" style={{ margin: "-1rem 0" }}>Or</p>
+          <p className="text-center text-light" style={{ margin: "-1rem 0" }}>
+            Or
+          </p>
           <hr className="bg-light" />
         </div>
         <div className="text-center">
           <button
             className="btn btn-outline-light w-100 d-flex align-items-center justify-content-center"
             onClick={handleGoogleLogin}
-            style={{ gap: "10px" }}>
+            style={{ gap: "10px" }}
+          >
             <img
               src={googleLogo}
               alt="Google Logo"
-              style={{ width: "20px", height: "20px" }} />
+              style={{ width: "20px", height: "20px" }}
+            />
             Register with Google
           </button>
         </div>
-        <p className="mt-3 text-center">Don't have an account? <a href="/register">Register</a> </p>
+        <p className="mt-3 text-center">
+          Don't have an account? <a href="/register">Register</a>{" "}
+        </p>
+        <p className="mt-3 text-center">
+          Forgot your password? <a href="/reset-password">Reset it here</a>
+        </p>
       </div>
     </div>
   );
