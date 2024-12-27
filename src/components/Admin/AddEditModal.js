@@ -11,21 +11,6 @@ const AddEditModal = ({ section, item, onClose, onSave }) => {
     code: "",
   });
 
-  // useEffect(() => {
-  //   if (item) {
-  //     setFormData(item);
-  //   } else {
-  //     setFormData({
-  //       title: "",
-  //       photo: "",
-  //       price: "",
-  //       stock: "",
-  //       category: "",
-  //       code: "",
-  //     });
-  //   }
-  // }, [item]);
-  
   useEffect(() => {
     if (item) {
       setFormData({
@@ -54,14 +39,14 @@ const AddEditModal = ({ section, item, onClose, onSave }) => {
       const endpoint = item
         ? `http://localhost:8080/api/${section.toLowerCase()}/${item._id}`
         : `http://localhost:8080/api/${section.toLowerCase()}`;
-        const response = await fetch(endpoint, {
-          method: item ? 'PUT' : 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include', // Incluye las cookies en la solicitud
-          body: JSON.stringify(formData),
-        });
+      const response = await fetch(endpoint, {
+        method: item ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Incluye las cookies en la solicitud
+        body: JSON.stringify(formData),
+      });
       if (!response.ok) {
         throw new Error("Error al guardar los datos");
       }

@@ -26,8 +26,6 @@ function Login({ setAuthState }) {
       );
       const result = await response.json();
 
-      console.log("Login response:", result); // Verificar la estructura de la respuesta
-
       if (response.ok) {
         const { response: userResponse } = result; // Extraer el objeto 'response'
         if (!userResponse || !userResponse.role) {
@@ -58,7 +56,6 @@ function Login({ setAuthState }) {
         });
       }
     } catch (error) {
-      console.error("Error during login:", error); // Agrega este log para depuración
       Swal.fire({
         icon: "error",
         title: "Error",

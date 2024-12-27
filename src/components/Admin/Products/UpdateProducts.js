@@ -12,14 +12,12 @@ function UpdateProductForm() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        console.log(`Solicitando producto con ID: ${id}`); // Log para depuración
         const response = await fetch(`http://localhost:8080/api/products`);
         if (!response.ok) {
           throw new Error(`Error al obtener productos: ${response.statusText}`);
         }
 
         const result = await response.json();
-        console.log("Respuesta del backend:", result); // Verifica la respuesta
 
         // Filtra el producto por su _id
         const selectedProduct = result.response.find(

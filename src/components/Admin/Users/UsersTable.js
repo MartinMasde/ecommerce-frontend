@@ -7,7 +7,8 @@ const UsersTable = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch("http://localhost:8080/api/users", {
-        credentials: "include", });
+          credentials: "include",
+        });
         if (!response.ok) {
           throw new Error(`Error al obtener productos: ${response.statusText}`);
         }
@@ -15,7 +16,7 @@ const UsersTable = () => {
         setUsers(result.response || []);
       } catch (error) {
         console.error("Error al consumir la API:", error);
-        setUsers([]); 
+        setUsers([]);
       }
     };
 
@@ -24,7 +25,7 @@ const UsersTable = () => {
 
   return (
     <div className="table-responsive">
-        <h1>Users</h1>
+      <h1>Users</h1>
       <button className="btn btn-primary mb-3">Agregar Usuario</button>
       <table className="table table-striped">
         <thead>
@@ -40,7 +41,7 @@ const UsersTable = () => {
             <tr key={user._id}>
               <td>{user.email}</td>
               <td>{user.role}</td>
-              <td>{user.isOnline ? "Online" : "Offline"}</td> 
+              <td>{user.isOnline ? "Online" : "Offline"}</td>
               <td>
                 <button className="btn btn-warning btn-sm me-2">Editar</button>
                 <button className="btn btn-danger btn-sm">Borrar</button>

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import AdminLayout from "../AdminLayout";
 
 function CreateProductForm() {
   const [product, setProduct] = useState({
@@ -22,7 +20,6 @@ function CreateProductForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Producto a enviar:", product); // Log para verificar los datos
       const response = await fetch("http://localhost:8080/api/products", {
         method: "POST",
         headers: {
@@ -44,7 +41,6 @@ function CreateProductForm() {
           category: "televisores",
           code: "",
         });
-        // navigate("/admin"); // Navega al AdminDashboard
       } else {
         const errorData = await response.json();
         console.error("Error del servidor:", errorData);
